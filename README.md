@@ -24,5 +24,5 @@ mvn package
 ## Transforming local file
 
 ```
-FILE_IN=~/Dropbox/datasets/website.ndjson.gz FILE_OUT=~/Downloads/test.ndjson.gz java -Xmx192M -jar target/main-jar-with-dependencies.jar
+FILE_IN=./one.ndjson.gz FILE_OUT=./two.ndjson.gz java -Xmx192M -jar target/main-jar-with-dependencies.jar
 ```
