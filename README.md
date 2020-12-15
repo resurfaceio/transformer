@@ -2,7 +2,6 @@
 
 ## Supported file formats
 
-* .ndjson - Newline Delimited JSON (http://ndjson.org)
 * .ndjson.gz - Newline Delimited JSON with GZIP compression
 
 Each line in the input file is parsed as a Resurface message:
