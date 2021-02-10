@@ -25,10 +25,10 @@ public class Main {
      */
     public Main() {
         // read configuration
-        String file_in = System.getenv("FILE_IN");
+        String file_in = System.getProperty("FILE_IN");
         if (file_in == null) throw new IllegalArgumentException("Missing FILE_IN");
         System.out.println("FILE_IN=" + file_in);
-        String file_out = System.getenv("FILE_OUT");
+        String file_out = System.getProperty("FILE_OUT");
         if (file_out == null) throw new IllegalArgumentException("Missing FILE_OUT");
         System.out.println("FILE_OUT=" + file_out);
 
