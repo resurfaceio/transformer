@@ -52,6 +52,11 @@ public class Main {
     private void transform(HttpMessage message) {
         // add interval if none exists
         if (message.interval_millis() == 0) message.set_interval_millis((int) (Math.random() * 15000));
+
+        // adjust time ahead if too far back
+        if (message.response_time_millis() < a_year_ago)
+            message.set_response_time_millis(message.response_time_millis() + millis_per_year);
+        if (message.response_time_millis() > started) throw new RuntimeException("API call would be in the future");
     }
 
     /**
@@ -60,11 +65,12 @@ public class Main {
     private void status() {
         long elapsed = System.currentTimeMillis() - started;
         long rate = (messages_written * 1000 / elapsed);
-        System.out.println("Messages: " + messages_written + ", Elapsed time: " + elapsed
-                + " ms, Rate: " + rate + " msg/sec");
+        System.out.println("Messages: " + messages_written + ", Elapsed time: " + elapsed + " ms, Rate: " + rate + " msg/sec");
     }
 
     private long messages_written = 0;
     private final long started = System.currentTimeMillis();
+    private final long millis_per_year = 365L * 24 * 60 * 60 * 1000;
+    private final long a_year_ago = started - millis_per_year;
 
 }
