@@ -36,8 +36,8 @@ public class Main {
         try (MessageFileWriter writer = new MessageFileWriter(file_out)) {
             try (MessageFileReader reader = new MessageFileReader(file_in)) {
                 reader.parse((HttpMessage message) -> {
-                    transform(message);
-                    writer.write(message);
+//                    transform(message);
+//                    writer.write(message);
                     if (messages_written++ % 100 == 0) status();
                 });
             }
@@ -53,10 +53,9 @@ public class Main {
         // add interval if none exists
         if (message.interval_millis() == 0) message.set_interval_millis((int) (Math.random() * 15000));
 
-        // adjust time ahead if too far back
-        if (message.response_time_millis() < a_year_ago)
-            message.set_response_time_millis(message.response_time_millis() + millis_per_year);
-        if (message.response_time_millis() > started) throw new RuntimeException("API call would be in the future");
+        // reset response time if out of range
+        if (message.response_time_millis() < a_year_ago || message.response_time_millis() > started)
+            message.set_response_time_millis(0);
     }
 
     /**
