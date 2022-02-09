@@ -1,5 +1,5 @@
 # Contributing to resurfaceio-transformer
-&copy; 2016-2020 Resurface Labs Inc.
+&copy; 2016-2022 Resurface Labs Inc.
 
 ## Coding Conventions
 
