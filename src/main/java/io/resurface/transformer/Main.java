@@ -51,7 +51,7 @@ public class Main {
      */
     private void transform(HttpMessage message) {
         // add interval if none exists
-        if (message.interval_millis() == 0) message.set_interval_millis((int) (Math.random() * 15000));
+        // if (message.interval_millis() == 0) message.set_interval_millis((int) (Math.random() * 15000));
 
         // reset response time to now
         message.set_response_time_millis(0);
