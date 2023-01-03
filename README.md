@@ -25,3 +25,6 @@ mvn package
 ```
 java -DFILE_IN=./one.ndjson.gz -DFILE_OUT=./two.ndjson.gz -Xmx192M -jar target/main-jar-with-dependencies.jar
 ```
+
+---
+<small>&copy; 2016-2023 <a href="https://resurface.io">Resurface Labs Inc.</a></small>
