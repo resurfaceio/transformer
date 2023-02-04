@@ -9,7 +9,7 @@ https://resurface.io/json.html
 
 ## System requirements
 
-* Java 11
+* Java 17
 * Maven
 
 ## Building from sources

@@ -2,9 +2,9 @@
 
 package io.resurface.transformer;
 
-import io.resurface.messages.HttpMessage;
-import io.resurface.messages.MessageFileReader;
-import io.resurface.messages.MessageFileWriter;
+import io.resurface.ndjson.HttpMessage;
+import io.resurface.ndjson.MessageFileReader;
+import io.resurface.ndjson.MessageFileWriter;
 
 /**
  * Transforms messages stored in compressed NDJSON files.
