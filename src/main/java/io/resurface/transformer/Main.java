@@ -38,6 +38,10 @@ public class Main {
         if (file_out == null) throw new IllegalArgumentException("Missing FILE_OUT");
         System.out.println("FILE_OUT=" + file_out);
         String operation = System.getProperty("OPERATION");
+        String amount = System.getProperty("AMOUNT");
+        if (operation == null && amount == null) throw new IllegalArgumentException("Must specify OPERATION");
+        long millis = amount == null ? 0 : parseAmount(amount);
+
         String[] files_in = file_in.contains(",") ? file_in.split(",") : new String[]{ file_in };
 
         // transform all messages
@@ -46,7 +50,7 @@ public class Main {
                 try (MessageFileReader reader = new MessageFileReader(file)) {
                     reader.parse((HttpMessage message) -> {
                         messages_read++;
-                        if (transform(message, operation)) {
+                        if (transform(message, operation, millis)) {
                             writer.write(message);
                             if (messages_written++ % 1000 == 0) status();
                         }
@@ -61,7 +65,7 @@ public class Main {
     /**
      * Transform message before writing, returning false if message should not be written.
      */
-    private boolean transform(HttpMessage message, String operation) {
+    private boolean transform(HttpMessage message, String operation, long millis) {
         try {
             // calculate digest for specified message
             MessageDigest d = MessageDigest.getInstance("SHA-256");
@@ -91,20 +95,27 @@ public class Main {
             // add interval if none exists
             if (message.interval_millis() == 0) message.set_interval_millis((int) (Math.random() * 15000));
 
-            if (operation == null || operation.equals("resetnow")) {
-                // reset response time to now
-                message.set_response_time_millis(0);
-            } else if (operation.equals("addoneyear")) {
-                message.set_response_time_millis(message.response_time_millis() + millis_per_year);
-            } else if(operation.equals("spanlastyear")) {
-                message.set_response_time_millis((random.nextLong() % millis_per_year) + a_year_ago);
-            } else if(operation.equals("spanlastquarter")) {
-                message.set_response_time_millis((random.nextLong() % (3 * millis_per_month)) + three_months_ago);
-            } else if(operation.startsWith("addcustommillis")) {
-                Long custom_millis = Long.parseLong(operation.substring(15));
-                message.set_response_time_millis(message.response_time_millis() + custom_millis);
-            } else if(operation.equals("join")) {
-                // do nothing
+            if (operation == null) operation = "";
+            long current = message.response_time_millis() == 0 ? started : message.response_time_millis();
+            switch (operation) {
+                case "add":
+                    message.set_response_time_millis(current + millis);
+                    break;
+                case "sub":
+                    message.set_response_time_millis(current - millis);
+                    break;
+                case "span1y":
+                    message.set_response_time_millis((random.nextLong() % millis_per_year) + a_year_ago);
+                    break;
+                case "span3m":
+                    message.set_response_time_millis((random.nextLong() % (3 * millis_per_month)) + three_months_ago);
+                    break;
+                case "join":
+                    // TODO join two datasets
+                    //break;
+                default:
+                    // reset response time to now
+                    message.set_response_time_millis(0);
             }
 
             return true;
@@ -139,6 +150,42 @@ public class Main {
      */
     private static void digestUpdate(MessageDigest digest, long value) {
         digestUpdate(digest, value == 0 ? "" : String.valueOf(value));
+    }
+
+    /**
+     * Parse time to millis
+     */
+    private static long parseAmount(String amount) {
+        int lastIdx = amount.length() - 1;
+        char lastChar = amount.charAt(lastIdx);
+        int conversionFactor = 1;
+        if (!Character.isDigit(lastChar)) {
+            amount = amount.substring(0, lastIdx);
+            switch (lastChar) {
+                case 'y':
+                    // year
+                    conversionFactor *= 12;
+                case 'm':
+                    // month
+                    conversionFactor *= 30;
+                case 'd':
+                    // day
+                    conversionFactor *= 24;
+                case 'h':
+                    // hour
+                    conversionFactor *= 60;
+                case 'n':
+                    // minute
+                    conversionFactor *= 60;
+                case 's':
+                    // second
+                    conversionFactor *= 1000;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Wrong AMOUNT unit");
+            }
+        }
+        return Long.parseLong(amount) * conversionFactor;
     }
 
     /**
