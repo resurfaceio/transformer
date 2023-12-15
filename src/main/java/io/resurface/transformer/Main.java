@@ -2,6 +2,8 @@
 
 package io.resurface.transformer;
 
+import java.util.Random;
+
 import io.resurface.ndjson.HttpMessage;
 import io.resurface.ndjson.MessageFileReader;
 import io.resurface.ndjson.MessageFileWriter;
@@ -35,17 +37,21 @@ public class Main {
         String file_out = System.getProperty("FILE_OUT");
         if (file_out == null) throw new IllegalArgumentException("Missing FILE_OUT");
         System.out.println("FILE_OUT=" + file_out);
+        String operation = System.getProperty("OPERATION");
+        String[] files_in = file_in.contains(",") ? file_in.split(",") : new String[]{ file_in };
 
         // transform all messages
         try (MessageFileWriter writer = new MessageFileWriter(file_out)) {
-            try (MessageFileReader reader = new MessageFileReader(file_in)) {
-                reader.parse((HttpMessage message) -> {
-                    messages_read++;
-                    if (transform(message)) {
-                        writer.write(message);
-                        if (messages_written++ % 1000 == 0) status();
-                    }
-                });
+            for (String file : files_in) {
+                try (MessageFileReader reader = new MessageFileReader(file)) {
+                    reader.parse((HttpMessage message) -> {
+                        messages_read++;
+                        if (transform(message, operation)) {
+                            writer.write(message);
+                            if (messages_written++ % 1000 == 0) status();
+                        }
+                    });
+                }
             }
         }
 
@@ -55,7 +61,7 @@ public class Main {
     /**
      * Transform message before writing, returning false if message should not be written.
      */
-    private boolean transform(HttpMessage message) {
+    private boolean transform(HttpMessage message, String operation) {
         try {
             // calculate digest for specified message
             MessageDigest d = MessageDigest.getInstance("SHA-256");
@@ -85,8 +91,21 @@ public class Main {
             // add interval if none exists
             if (message.interval_millis() == 0) message.set_interval_millis((int) (Math.random() * 15000));
 
-            // reset response time to now
-            message.set_response_time_millis(0);
+            if (operation == null || operation.equals("resetnow")) {
+                // reset response time to now
+                message.set_response_time_millis(0);
+            } else if (operation.equals("addoneyear")) {
+                message.set_response_time_millis(message.response_time_millis() + millis_per_year);
+            } else if(operation.equals("spanlastyear")) {
+                message.set_response_time_millis((random.nextLong() % millis_per_year) + a_year_ago);
+            } else if(operation.equals("spanlastquarter")) {
+                message.set_response_time_millis((random.nextLong() % (3 * millis_per_month)) + three_months_ago);
+            } else if(operation.startsWith("addcustommillis")) {
+                Long custom_millis = Long.parseLong(operation.substring(15));
+                message.set_response_time_millis(message.response_time_millis() + custom_millis);
+            } else if(operation.equals("join")) {
+                // do nothing
+            }
 
             return true;
         } catch (Throwable t) {
@@ -135,5 +154,9 @@ public class Main {
     private long messages_read = 0;
     private long messages_written = 0;
     private final long started = System.currentTimeMillis();
-
+    private final long millis_per_year = 365L * 24 * 60 * 60 * 1000;
+    private final long millis_per_month = 30L * 24 * 60 * 60 * 1000;
+    private final long a_year_ago = started - millis_per_year;
+    private final long three_months_ago = started - 3 * millis_per_month;
+    private final Random random = new Random();
 }
