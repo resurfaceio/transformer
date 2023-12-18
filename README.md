@@ -39,6 +39,8 @@ The previous command sets the `response.time_millis` field of each call in the `
 by subtracting 1728000000 milliseconds (equivalent to 20 days) from each corresponding call in the `one.ndjson.gz`
 dataset, effectively translating the dataset through time.
 
+![image](https://github.com/resurfaceio/transformer/assets/7117255/dbcba0eb-d87b-4ae3-8355-dd5e7ea59ea7)
+
 The available operations are:
 
 - `add`: Adds `AMOUNT` in millis to `response.time_millis` for the input dataset.
