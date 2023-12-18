@@ -39,7 +39,7 @@ public class Main {
         System.out.println("FILE_OUT=" + file_out);
         String operation = System.getProperty("OPERATION");
         String amount = System.getProperty("AMOUNT");
-        if (operation == null && amount == null) throw new IllegalArgumentException("Must specify OPERATION");
+        if (operation == null && amount != null) throw new IllegalArgumentException("Must specify OPERATION");
         long millis = amount == null ? 0 : parseAmount(amount);
 
         String[] files_in = file_in.contains(",") ? file_in.split(",") : new String[]{ file_in };
@@ -167,7 +167,10 @@ public class Main {
                     conversionFactor *= 12;
                 case 'm':
                     // month
-                    conversionFactor *= 30;
+                    conversionFactor *= 4;
+                case 'w':
+                    // week
+                    conversionFactor *= 7;
                 case 'd':
                     // day
                     conversionFactor *= 24;
