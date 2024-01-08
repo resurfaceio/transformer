@@ -32,7 +32,7 @@ By default, the `response.time_millis` field is reset to the current system time
 This can be changed by specifying both an `OPERATION` and `AMOUNT` of time:
 
 ```
-java -DOPERATION=sub -DAMOUNT=3d -DFILE_IN=./one.ndjson.gz -DFILE_OUT=./two.ndjson.gz -Xmx192M -jar target/main-jar-with-dependencies.jar
+java -DOPERATION=sub -DAMOUNT=20d -DFILE_IN=./one.ndjson.gz -DFILE_OUT=./two.ndjson.gz -Xmx192M -jar target/main-jar-with-dependencies.jar
 ```
 
 The previous command sets the `response.time_millis` field of each call in the `two.ndjson.gz` dataset
