@@ -202,7 +202,7 @@ public class Main {
         private static long parseAmount(String amount) {
             int lastIdx = amount.length() - 1;
             char lastChar = amount.charAt(lastIdx);
-            int conversionFactor = 1;
+            long conversionFactor = 1;
             if (!Character.isDigit(lastChar)) {
                 amount = amount.substring(0, lastIdx);
                 switch (lastChar) {
