@@ -1,8 +1,8 @@
 # resurfaceio-transformer
 Modify or merge NDJSON files
 
-This command-line utility transforms and merges files in [NDJSON format](https://resurface.io/json.html)) 
-before being imported into a remote Resurface database.
+This command-line utility transforms and merges locally stored files in [NDJSON format](https://resurface.io/json.html).
+The resulting files can then be imported into a remote Resurface database.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/resurfaceio/transformer/badge)](https://www.codefactor.io/repository/github/resurfaceio/transformer)
 [![License](https://img.shields.io/github/license/resurfaceio/transformer)](https://github.com/resurfaceio/transformer/blob/v3.6.x/LICENSE)
