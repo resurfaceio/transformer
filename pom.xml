@@ -8,7 +8,7 @@
     <artifactId>resurfaceio-transformer</artifactId>
     <version>3.6.1</version>
     <name>resurfaceio-transformer</name>
-    <description>Clean or enhance ndjson files</description>
+    <description>Modify or merge NDJSON files</description>
     <url>https://github.com/resurfaceio/transformer</url>
 
     <build>
@@ -16,7 +16,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.10.1</version>
                 <configuration>
                     <source>17</source>
                     <target>17</target>
@@ -29,23 +29,24 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <finalName>main</finalName>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <archive>
-                                <manifest>
-                                    <mainClass>io.resurface.transformer.Main</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>io.resurface.transformer.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -61,22 +62,29 @@
             <artifactId>resurfaceio-ndjson</artifactId>
             <version>3.5.3</version>
         </dependency>
+
+        <!-- for testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- for packaging -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.4.2</version>
+            <type>maven-plugin</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>cloudsmith</id>
-            <url>https://maven.cloudsmith.io/resurfaceio/internal/</url>
-        </snapshotRepository>
         <repository>
             <id>cloudsmith</id>
-            <url>https://maven.cloudsmith.io/resurfaceio/internal/</url>
+            <url>https://maven.cloudsmith.io/resurfaceio/public/</url>
         </repository>
     </distributionManagement>
 
@@ -93,14 +101,14 @@
         </license>
     </licenses>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <organization>
         <name>resurface.io</name>
         <url>https://resurface.io</url>
     </organization>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <repositories>
         <repository>

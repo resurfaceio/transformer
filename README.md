@@ -8,30 +8,71 @@ The resulting files can then be imported into a remote Resurface database.
 [![License](https://img.shields.io/github/license/resurfaceio/transformer)](https://github.com/resurfaceio/transformer/blob/v3.6.x/LICENSE)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-green.svg)](https://github.com/resurfaceio/transformer/blob/v3.6.x/CONTRIBUTING.md)
 
-## Supported file formats
+## Usage
 
-* .ndjson.gz - Newline Delimited JSON with GZIP compression
+Download executable jar:
+```
+wget https://dl.cloudsmith.io/public/resurfaceio/public/maven/io/resurface/resurfaceio-transformer/3.6.1/resurfaceio-transformer-3.6.1.jar
+```
 
-Each line in the input file is parsed as a Resurface message:
-https://resurface.io/json.html
+Merging two files while removing duplicates:
+```
+java -DTRANSFORM_DUPLICATES=drop -DFILES_IN=source1.ndjson.gz,source2.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.6.1.jar
+```
 
-## System requirements
+Randomly shuffling unique calls across the last year:
+```
+java -DTRANSFORM_DUPLICATES=drop -DTRANSFORM_RESPONSE_TIME_MILLIS=shuffle:1y -DFILES_IN=source.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.6.1.jar
+```
+
+⚠️ This utility reads and writes files in .ndjson.gz format exclusively. This compressed file format can be exported from a
+Resurface database, or generated using the [ndjson](https://github.com/resurfaceio/ndjson) library.
+
+## Parameters
+
+```
+FILES_IN: comma-separated list of files to use as input
+FILE_OUT: resulting file to be created (must not already exist!)
+
+TRANSFORM_DUPLICATES: keep|drop
+TRANSFORM_INTERVAL_MILLIS: keep|drop|randomize:<time>
+TRANSFORM_RESPONSE_TIME_MILLIS: keep|drop|add:<time>|subtract:<time>|shuffle:<time>
+
+^ where <time> is <integer><unit>
+  and <unit> is 'y' (year), 'm' (month), 'w' (week), 'd' (day), 'h' (hour), 'n' (minute), 's' (second)
+```
+
+## Dependencies
 
 * Java 17
-* Maven
+* [resurfaceio/ndjson](https://github.com/resurfaceio/ndjson)
 
-## Building from sources
+## Installing with Maven
 
+⚠️ We publish our official binaries on [CloudSmith](https://cloudsmith.com) rather than Maven Central, because CloudSmith
+is awesome.
+
+If you want to call this utility from your own Java application, add these sections to `pom.xml` to install:
+
+```xml
+<dependency>
+    <groupId>io.resurface</groupId>
+    <artifactId>resurfaceio-transformer</artifactId>
+    <version>3.6.1</version>
+</dependency>
 ```
-git clone https://github.com/resurfaceio/transformer.git resurfaceio-transformer
-cd resurfaceio-transformer
-mvn package
-```
 
-## Transforming local file
-
-```
-java -DFILE_IN=./one.ndjson.gz -DFILE_OUT=./two.ndjson.gz -Xmx192M -jar target/main-jar-with-dependencies.jar
+```xml
+<repositories>
+    <repository>
+        <id>resurfaceio-public</id>
+        <url>https://dl.cloudsmith.io/public/resurfaceio/public/maven/</url>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+        </releases>
+    </repository>
+</repositories>
 ```
 
 ---
