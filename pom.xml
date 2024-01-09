@@ -6,7 +6,7 @@
 
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-transformer</artifactId>
-    <version>3.6.1</version>
+    <version>3.6.2</version>
     <name>resurfaceio-transformer</name>
     <description>Modify or merge NDJSON files</description>
     <url>https://github.com/resurfaceio/transformer</url>

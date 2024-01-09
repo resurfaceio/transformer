@@ -12,17 +12,17 @@ The resulting files can then be imported into a remote Resurface database.
 
 Download executable jar:
 ```
-wget https://dl.cloudsmith.io/public/resurfaceio/public/maven/io/resurface/resurfaceio-transformer/3.6.1/resurfaceio-transformer-3.6.1.jar
+wget https://dl.cloudsmith.io/public/resurfaceio/public/maven/io/resurface/resurfaceio-transformer/3.6.2/resurfaceio-transformer-3.6.2.jar
 ```
 
 Merging two files while removing duplicates:
 ```
-java -DTRANSFORM_DUPLICATES=drop -DFILES_IN=source1.ndjson.gz,source2.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.6.1.jar
+java -DTRANSFORM_DUPLICATES=drop -DFILES_IN=source1.ndjson.gz,source2.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.6.2.jar
 ```
 
 Randomly shuffling unique calls across the last year:
 ```
-java -DTRANSFORM_DUPLICATES=drop -DTRANSFORM_RESPONSE_TIME_MILLIS=shuffle:1y -DFILES_IN=source.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.6.1.jar
+java -DTRANSFORM_DUPLICATES=drop -DTRANSFORM_RESPONSE_TIME_MILLIS=shuffle:1y -DFILES_IN=source.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.6.2.jar
 ```
 
 ⚠️ This utility reads and writes files in .ndjson.gz format exclusively. This compressed file format can be exported from a
@@ -58,7 +58,7 @@ If you want to call this utility from your own Java application, add these secti
 <dependency>
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-transformer</artifactId>
-    <version>3.6.1</version>
+    <version>3.6.2</version>
 </dependency>
 ```
 
