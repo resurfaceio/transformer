@@ -1,4 +1,12 @@
 # resurfaceio-transformer
+Modify or merge NDJSON files
+
+This command-line utility transforms and merges files in [NDJSON format](https://resurface.io/json.html)) 
+before being imported into a remote Resurface database.
+
+[![CodeFactor](https://www.codefactor.io/repository/github/resurfaceio/transformer/badge)](https://www.codefactor.io/repository/github/resurfaceio/transformer)
+[![License](https://img.shields.io/github/license/resurfaceio/transformer)](https://github.com/resurfaceio/transformer/blob/v3.6.x/LICENSE)
+[![Contributing](https://img.shields.io/badge/contributions-welcome-green.svg)](https://github.com/resurfaceio/transformer/blob/v3.6.x/CONTRIBUTING.md)
 
 ## Supported file formats
 
@@ -27,4 +35,4 @@ java -DFILE_IN=./one.ndjson.gz -DFILE_OUT=./two.ndjson.gz -Xmx192M -jar target/m
 ```
 
 ---
-<small>&copy; 2016-2023 <a href="https://resurface.io">Graylog, Inc.</a></small>
+<small>&copy; 2016-2024 <a href="https://resurface.io">Graylog, Inc.</a></small>

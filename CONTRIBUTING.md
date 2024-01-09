@@ -1,5 +1,5 @@
 # Contributing to resurfaceio-transformer
-&copy; 2016-2023 Graylog, Inc.
+&copy; 2016-2024 Graylog, Inc.
 
 ## Coding Conventions
 
