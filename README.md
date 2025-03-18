@@ -17,7 +17,7 @@ wget https://dl.cloudsmith.io/public/resurfaceio/public/maven/io/resurface/resur
 
 Merging two files while removing duplicates:
 ```
-java -DTRANSFORM_DUPLICATES=drop -DFILES_IN=source1.ndjson.gz,source2.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.7.1.jar
+java -DTRANSFORM_DUPLICATES=drop -DFILES_IN=source1.ndjson.gz:source2.ndjson.gz -DFILE_OUT=results.ndjson.gz -Xmx192M -jar resurfaceio-transformer-3.7.1.jar
 ```
 
 Randomly shuffling unique calls across the last year:

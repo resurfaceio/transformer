@@ -45,7 +45,7 @@ public class Main {
 
         // transform all messages
         try (MessageFileWriter writer = new MessageFileWriter(file_out)) {
-            String[] files = files_in.contains(",") ? files_in.split(",") : new String[]{files_in};
+            String[] files = files_in.contains(":") ? files_in.split(":") : new String[]{files_in};
             for (String file : files) {
                 try (MessageFileReader reader = new MessageFileReader(file)) {
                     reader.parse((HttpMessage message) -> {
