@@ -1,5 +1,5 @@
 # Contributing to resurfaceio-transformer
-&copy; 2016-2024 Graylog, Inc.
+&copy; 2016-2025 Graylog, Inc.
 
 ## Coding Conventions
 
@@ -47,8 +47,8 @@ mvn deploy
 Tag release version:
 
 ```
-git tag v3.6.(BUILD_NUMBER)
-git push origin v3.6.x --tags
+git tag v3.7.(BUILD_NUMBER)
+git push origin v3.7.x --tags
 ```
 
 Start the next version by incrementing the version number. (located in pom.xml)
